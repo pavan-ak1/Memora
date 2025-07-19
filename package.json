@@ -1,0 +1,34 @@
+{
+  "name": "second-brain",
+  "version": "1.0.0",
+  "description": "Second Brain is a app where u can add the links which you think you will forget later(Acts as your storing brain :) )\r You can share your links and tell your friends what you have stored in your brain.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pavan-ak1/Second-Brain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pavan-ak1/Second-Brain/issues"
+  },
+  "homepage": "https://github.com/pavan-ak1/Second-Brain#readme",
+  "dependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.4",
+    "typescript": "^5.8.3",
+    "zod": "^4.0.5"
+  }
+}
