@@ -1,12 +1,9 @@
 import { Router } from 'express';
-import { signup, signin } from '../controllers/authController';
 import userMiddleware from '../middleware/userMiddleware';
-
-
-
+import { addContent } from '../controllers/contentController';
 const router = Router();
 
-router.post('/signup' ,signup);
-router.post('/signin' ,signin);
+router.post('/' ,userMiddleware,addContent);
+
 
 export default router;
