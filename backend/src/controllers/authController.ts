@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import jwt, { Secret, SignOptions } from "jsonwebtoken"; // Import Secret and SignOptions
 import User from "../model/userModel";
 import { z } from "zod";
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes } from "http-status-codes";
 
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 
 export const signupSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters").max(30),
@@ -19,15 +19,16 @@ export const signinSchema = z.object({
 // --- Helper Function ---
 const generateToken = (id: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
-  const expiresIn = (process.env.JWT_EXPIRES_IN || '1d') as SignOptions['expiresIn'];
+  const expiresIn = (process.env.JWT_EXPIRES_IN ||
+    "1d") as SignOptions["expiresIn"];
 
   if (!jwtSecret) {
     console.error("FATAL ERROR: JWT_SECRET is not defined in .env file");
-    throw new Error('JWT secret key is not configured.');
+    throw new Error("JWT secret key is not configured.");
   }
 
   const options: SignOptions = {
-      expiresIn,
+    expiresIn,
   };
 
   return jwt.sign({ id }, jwtSecret, options);
@@ -42,7 +43,9 @@ export const signup = async (req: Request, res: Response) => {
     const userExists = await User.findOne({ username });
 
     if (userExists) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Username is already taken' });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "Username is already taken" });
     }
 
     const user = await User.create({ username, password });
@@ -59,33 +62,40 @@ export const signup = async (req: Request, res: Response) => {
       },
     });
   } catch (error: any) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong during signup." });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Something went wrong during signup." });
   }
 };
 
 export const signin = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  try {    
-    const user = await User.findOne({ username }).select('+password') as unknown as { _id: any, username: string, password: string };
+  try {
+    const user = (await User.findOne({ username }).select(
+      "+password"
+    )) as unknown as { _id: any; username: string; password: string };
 
     if (!user) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "Invalid credentials" });
     }
 
     if (!user.password) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "Invalid credentials" });
     }
-    
-   
+
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      
-      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "Invalid credentials" });
     }
 
-    
     const token = generateToken(String(user._id));
 
     res.status(StatusCodes.OK).json({
@@ -97,10 +107,10 @@ export const signin = async (req: Request, res: Response) => {
         password: user.password,
       },
     });
-
   } catch (error: any) {
-    
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong during signin." });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Something went wrong during signin." });
   }
 };
 
