@@ -1,10 +1,31 @@
-import {Model, Schema} from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
+import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
-    username:{type:String, unique:true},
-    password:{type:String, required:true}
-})
+  username:{
+    type:String,
+    required:true,
+    unique:true,
+    trim: true,
+    lowercase: true
+  },
+  password:{
+    required:true,
+    type:String,
+    select: false, // Password is excluded by default
+    minlength: 6
+  }
+}, { timestamps: true });
 
-const UserModel = new Model(UserSchema, "User");
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
-export UserModel
+const UserModel = model('User', UserSchema);
+
+export default UserModel;
