@@ -59,7 +59,6 @@ export const signup = async (req: Request, res: Response) => {
       },
     });
   } catch (error: any) {
-    console.error("Signup Error:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong during signup." });
   }
 };
@@ -67,30 +66,26 @@ export const signup = async (req: Request, res: Response) => {
 export const signin = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  try {
-    console.log("Signin attempt for username:", username);
-    
+  try {    
     const user = await User.findOne({ username }).select('+password') as unknown as { _id: any, username: string, password: string };
 
     if (!user) {
-      console.log("User not found:", username);
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
     }
 
     if (!user.password) {
-      console.log("User found but no password field:", username);
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
     }
     
-    console.log("Comparing passwords for user:", username);
+   
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      console.log("Password incorrect for user:", username);
+      
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
     }
 
-    console.log("Password correct, generating token for user:", username);
+    
     const token = generateToken(String(user._id));
 
     res.status(StatusCodes.OK).json({
@@ -104,7 +99,7 @@ export const signin = async (req: Request, res: Response) => {
     });
 
   } catch (error: any) {
-    console.error("Signin Error:", error);
+    
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong during signin." });
   }
 };

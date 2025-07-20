@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {  
     "build": "tsc -b",
-    "start": "nodemon out/index.js",
+    "start": "node out/index.js",
     "dev": "npm run build && npm run start"
   },
   "repository": {
