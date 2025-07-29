@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Second Brain is a app where u can add the links which you think you will forget later(Acts as your storing brain :) )\r You can share your links and tell your friends what you have stored in your brain.",
   "main": "index.js",
-  "scripts": {  
+  "scripts": {
     "build": "tsc -b",
     "start": "node out/index.js",
     "dev": "npm run build && npm run start"
@@ -34,6 +34,7 @@
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.4",
     "ors": "^1.0.0",
+    "types": "file:../../../../../jwt",
     "typescript": "^5.8.3",
     "zod": "^4.0.5"
   },

@@ -3,12 +3,21 @@ import { url } from "zod";
 
 const LinkSchema = new Schema(
   {
-    hash: String,
+    hash: {
+      type: String,
+      required: true,
+      unique: true
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
+    contentId: {
+      type: Schema.Types.ObjectId,
+      ref: "Content",
+      default: null
+    }
   },
   { timestamps: true }
 );

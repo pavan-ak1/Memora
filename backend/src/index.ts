@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 import connectDb from "./db/db";
 import cors from "cors";
 
-//imported routes
+// Import routes
 import authRoutes from "./routes/authRoutes";
 import contentRoutes from "./routes/contentRoutes";
-import shareRoutes from "./routes/shareRoutes";
+import { shareRoutes, publicShareRoutes } from "./routes/shareRoutes";
 
 dotenv.config();
 connectDb();
@@ -15,10 +15,19 @@ connectDb();
 app.use(cors());
 app.use(express.json());
 
-//routes
+// Add request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
+
+// Public routes (no authentication required)
+app.use("/api/v1", publicShareRoutes);
+
+// Protected routes (authentication required)
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/contents", contentRoutes);
-app.use("/api/v1/", shareRoutes);
+app.use("/api/v1", shareRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("API is running with TypeScript...");

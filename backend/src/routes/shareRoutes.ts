@@ -1,13 +1,16 @@
 import { Router } from "express";
 import userMiddleware from "../middleware/userMiddleware";
-import {
-  shareContent,
-  sharedLinkLogic,
-} from "../controllers/contentController";
+import { toggleShare, getSharedContent } from "../controllers/shareController";
 
 const router = Router();
 
-router.post("/brain/share", userMiddleware, shareContent);
-router.get("/brain/:shareLink", sharedLinkLogic);
+// Toggle sharing for user's content (requires authentication)
+router.post("/share", userMiddleware, toggleShare);
 
-export default router;
+// Create a separate router for public routes
+const publicRouter = Router();
+
+// Get shared content by share link (public access - no authentication)
+publicRouter.get("/shared/:shareLink", getSharedContent);
+
+export { router as shareRoutes, publicRouter as publicShareRoutes };

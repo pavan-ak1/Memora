@@ -4,16 +4,15 @@ import {
   addContent,
   deleteContents,
   getContents,
-  searchContent,
 } from "../controllers/contentController";
 
 const router = Router();
 
-router.post("/", userMiddleware, addContent);
 router
-  .get("/", userMiddleware, getContents)
-  .get("/title", userMiddleware, searchContent);
+  .route("/")
+  .post(userMiddleware, addContent)
+  .get(userMiddleware, getContents);
 
-router.delete("/:id", userMiddleware, deleteContents);
+router.route("/:id").delete(userMiddleware, deleteContents);
 
 export default router;

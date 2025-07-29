@@ -16,7 +16,7 @@ export const signinSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-// --- Helper Function ---
+
 const generateToken = (id: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
   const expiresIn = (process.env.JWT_EXPIRES_IN ||
@@ -58,7 +58,7 @@ export const signup = async (req: Request, res: Response) => {
       user: {
         _id: String(user._id),
         username: user.username,
-        password: user.password,
+     
       },
     });
   } catch (error: any) {
@@ -97,6 +97,8 @@ export const signin = async (req: Request, res: Response) => {
     }
 
     const token = generateToken(String(user._id));
+
+
 
     res.status(StatusCodes.OK).json({
       message: "Signed in successfully",
