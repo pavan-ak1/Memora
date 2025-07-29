@@ -1,6 +1,6 @@
-# Second Brain Backend
+# Memora
 
-Second Brain is a backend service for storing, managing, and sharing links you want to remember—acting as your digital second brain. Users can securely save links, organize them with tags, and share collections with others.
+Memora is a backend service for storing, managing, and sharing links you want to remember—acting as your digital second brain. Users can securely save links, organize them with tags, and share collections with others.
 
 ## Features
 - User authentication (JWT-based)
@@ -29,8 +29,8 @@ Second Brain is a backend service for storing, managing, and sharing links you w
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/pavan-ak1/Second-Brain.git
-   cd Second-Brain/backend
+   git clone https://github.com/pavan-ak1/Memora.git
+   cd Memora/backend
    ```
 2. Install dependencies:
    ```bash
